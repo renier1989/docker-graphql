@@ -18,12 +18,12 @@ jobs:
       with:
         fetch-depth : 0
     - name: Git Semantic Version
-      uses: paulhatch/semantic-version@v3
+      uses: paulhatch/semantic-version@v5.1.0
       with:
         branch: "main"
-        major_pattern: "(MAJOR)"
-        minor_pattern: "(MINOR)"
-        tag_prefix : "v"
+        major_pattern: "major:"
+        minor_pattern: "minor:"
+        bump_each_commit: true
         format: "${major}.${minor}.${patch}-prerelease.${increment}"
       id: version
             
