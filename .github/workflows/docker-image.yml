@@ -24,7 +24,7 @@ jobs:
         major_pattern: "major:"
         minor_pattern: "minor:"
         bump_each_commit: true
-        # format: "${major}.${minor}.${patch}-prerelease.${increment}"
+        version_format: "${major}.${minor}.${patch}-prerelease.${increment}"
       id: version
             
         
