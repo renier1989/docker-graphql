@@ -36,6 +36,7 @@ jobs:
         echo "Iniciando Login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "Finalizando Login"
+        echo "Version actualizada a la .....:  [$NEW_VERSION]"
 
     - name: Docker Image Build & Push with Buildx
       env:
