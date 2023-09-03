@@ -42,8 +42,8 @@ jobs:
       env:
         NEW_VERSION: ${{ steps.version.outputs.version }}
       run : | 
-        docker build -t renier1989/docker-graphql:$NEW_VERSION .
-        docker build -t renier1989/docker-graphql:latest .
+        docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t renier1989/docker-graphql:$NEW_VERSION .
+        docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t renier1989/docker-graphql:latest .
 
     
     - name: Docker Image Push
