@@ -46,6 +46,8 @@ jobs:
         docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t renier1989/docker-graphql:$NEW_VERSION --push .
         docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t renier1989/docker-graphql:latest --push .
 
+
+
     
     # - name: Docker Image Push
     #   env:
