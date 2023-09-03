@@ -20,7 +20,7 @@ jobs:
     - name: Git Semantic Version
       uses: PaulHatch/semantic-version@v5.1.0
       with:
-        major_pattern: "MAYOR:"
+        major_pattern: "MAJOR:"
         minor_pattern: "FEAT:"
         format: "${major}.${minor}.${patch}-prerelease${increment}"
       id: versioning
@@ -41,6 +41,7 @@ jobs:
     #   run : | 
     #     docker build -t renier1989/docker-graphql:0.0.1 .
     #     docker build -t renier1989/docker-graphql:latest .
+
     
     # - name: Docker Image Push
     #   run: | 
