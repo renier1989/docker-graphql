@@ -32,7 +32,7 @@ jobs:
     
     - name: Docker Image Push
       run: | 
-        dokcer push renier1989/docker-graphql:0.0.1 .
+        docker push renier1989/docker-graphql:0.0.1
 
 
 
