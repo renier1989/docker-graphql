@@ -38,6 +38,7 @@ jobs:
         echo "Esta es la nueva version de la imagen: [$NEW_VERSION]"
 
 
+
     # - name: Docker Image Build
     #   run : | 
     #     docker build -t renier1989/docker-graphql:0.0.1 .
