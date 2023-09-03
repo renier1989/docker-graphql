@@ -1,0 +1,62 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth : 0
+    - name: Git Semantic Version
+      uses: paulhatch/semantic-version@v5.1.0
+      with:
+        branch: "main"
+        major_pattern: "major:"
+        minor_pattern: "minor:"
+        bump_each_commit: true
+        version_format: "${major}.${minor}.${patch}-prerelease.${increment}"
+      id: version
+        
+    - name: Docker Login
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        # NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: |
+        echo "Iniciando Login"
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        echo "Finalizando Login"
+        
+
+    - name: Docker Image Build
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run : | 
+        docker build -t renier1989/docker-graphql:$NEW_VERSION .
+        docker build -t renier1989/docker-graphql:latest .
+
+    
+    - name: Docker Image Push
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: | 
+        docker push renier1989/docker-graphql:$NEW_VERSION
+        docker push renier1989/docker-graphql:latest
+
+
+
+
+        
+      
+    # - name: Build the Docker image
+    #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
