@@ -26,29 +26,32 @@ jobs:
         bump_each_commit: true
         version_format: "${major}.${minor}.${patch}-prerelease.${increment}"
       id: version
-            
         
     - name: Docker Login
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        NEW_VERSION: ${{ steps.version.outputs.version }}
+        # NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
         echo "Iniciando Login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "Finalizando Login"
-        echo "Esta es la nueva version de la imagen: [$NEW_VERSION]"
+        
 
-    # - name: Docker Image Build
-    #   run : | 
-    #     docker build -t renier1989/docker-graphql:0.0.1 .
-    #     docker build -t renier1989/docker-graphql:latest .
+    - name: Docker Image Build
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run : | 
+        docker build -t renier1989/docker-graphql:$NEW_VERSION .
+        docker build -t renier1989/docker-graphql:latest .
 
     
-    # - name: Docker Image Push
-    #   run: | 
-    #     docker push renier1989/docker-graphql:0.0.1
-    #     docker push renier1989/docker-graphql:latest
+    - name: Docker Image Push
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: | 
+        docker push renier1989/docker-graphql:$NEW_VERSION
+        docker push renier1989/docker-graphql:latest
 
 
 
