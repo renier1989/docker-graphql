@@ -31,12 +31,11 @@ jobs:
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        NEW_VERSION: ${{ steps.version.outputs.version }}
+        # NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
         echo "Iniciando Login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "Finalizando Login"
-        echo "version actualizada al ...: [$NEW_VERSION]"
 
     - name: Docker Image Build & Push with Buildx
       env:
@@ -45,8 +44,17 @@ jobs:
         docker buildx create --name mybuilder --bootstrap --use
         docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t renier1989/docker-graphql:$NEW_VERSION --push .
         docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t renier1989/docker-graphql:latest --push .
+ 
 
 
+    ## ESTO ES PARA PODER HACER LA CREACION DE Y SUBIDA DE IMAGENES PERO UNICAMENTE LA DE MI PROPIA ARQUITECTURA.
+
+    # - name: Docker Image Build
+    #   env:
+    #     NEW_VERSION: ${{ steps.version.outputs.version }}
+    #   run : | 
+    #     docker build -t renier1989/docker-graphql:$NEW_VERSION .
+    #     docker build -t renier1989/docker-graphql:latest .
 
     
     # - name: Docker Image Push
