@@ -31,28 +31,28 @@ jobs:
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        # NEW_VERSION: ${{ steps.version.outputs.version }}
+        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
         echo "Iniciando Login"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         echo "Finalizando Login"
-        
+        echo "version actualizada al ...: [$NEW_VERSION]"
 
-    - name: Docker Image Build
+    - name: Docker Image Build & Push with Buildx
       env:
         NEW_VERSION: ${{ steps.version.outputs.version }}
       run : | 
         docker buildx create --name mybuilder --bootstrap --use
-        docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t renier1989/docker-graphql:$NEW_VERSION .
-        docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t renier1989/docker-graphql:latest .
+        docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t renier1989/docker-graphql:$NEW_VERSION --push .
+        docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t renier1989/docker-graphql:latest --push .
 
     
-    - name: Docker Image Push
-      env:
-        NEW_VERSION: ${{ steps.version.outputs.version }}
-      run: | 
-        docker push renier1989/docker-graphql:$NEW_VERSION
-        docker push renier1989/docker-graphql:latest
+    # - name: Docker Image Push
+    #   env:
+    #     NEW_VERSION: ${{ steps.version.outputs.version }}
+    #   run: | 
+    #     docker push renier1989/docker-graphql:$NEW_VERSION
+    #     docker push renier1989/docker-graphql:latest
 
 
 
