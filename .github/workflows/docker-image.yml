@@ -38,7 +38,7 @@ jobs:
         echo "Esta es la nueva version de la imagen: [$NEW_VERSION]"
 
 
-  #d
+  #d 
 
     # - name: Docker Image Build
     #   run : | 
